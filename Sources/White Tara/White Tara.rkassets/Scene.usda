@@ -1,0 +1,470 @@
+#usda 1.0
+(
+    customLayerData = {
+        string creator = "Reality Composer Pro Version 2.0 (494.100.6)"
+    }
+    defaultPrim = "Root"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "Root"
+{
+    reorder nameChildren = ["Shrine", "KeyLight", "FillLight", "RimLight", "HeartGlow", "RCP_BehaviorsContainer", "OnAddedToScene", "IdleBreath", "IdleLoop"]
+
+    def Xform "Shrine"
+    {
+        quatf xformOp:orient = (1, 0, 0, 0)
+        float3 xformOp:scale = (1, 1, 1)
+        float3 xformOp:translate = (0, 0, 0)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+        def Cylinder "MoonDisc" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            uniform token axis = "Y"
+            double height = 0.014
+            double radius = 0.28
+            rel material:binding = </Root/Shrine/MoonDiscMaterial> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 0.007, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        def Cylinder "LotusCushion" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            uniform token axis = "Y"
+            double height = 0.024
+            double radius = 0.34
+            rel material:binding = </Root/Shrine/LotusMaterial> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, -0.005, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        # Outer luminous halo (flattened sphere)
+        def Sphere "AuraHalo" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            double radius = 0.32
+            rel material:binding = </Root/Shrine/AuraMaterial> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1.0, 1.35, 1.0)
+            float3 xformOp:translate = (0, 0.28, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        # Inner brighter core aura
+        def Sphere "AuraCore" (
+            prepend apiSchemas = ["MaterialBindingAPI"]
+        )
+        {
+            double radius = 0.18
+            rel material:binding = </Root/Shrine/AuraCoreMaterial> (
+                bindMaterialAs = "weakerThanDescendants"
+            )
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (0.85, 1.1, 0.85)
+            float3 xformOp:translate = (0, 0.26, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+        }
+
+        # Soft blessing particles rising around her
+        def Xform "BlessingParticles"
+        {
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 0.05, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            def RealityKitComponent "VFXEmitter"
+            {
+                token info:id = "RealityKit.VFXEmitter"
+
+                def RealityKitStruct "currentState"
+                {
+                    token birthDirection = "Normal"
+                    token birthLocation = "Volume"
+                    float3 emissionDirection = (0, 1, 0)
+                    double emissionDuration = 0
+                    token emitterShape = "Cylinder"
+                    double idleDuration = 0
+                    bool isLocal = 1
+                    bool loops = 1
+                    float particleSpeed = 0.06
+                    float particleSpeedVariation = 0.03
+                    float3 shapeSize = (0.45, 0.55, 0.45)
+                    double warmupDuration = 2
+
+                    def RealityKitStruct "mainEmitter"
+                    {
+                        float3 acceleration = (0, 0.02, 0)
+                        token billboardMode = "Billboard"
+                        float birthRate = 18
+                        float birthRateVariation = 6
+                        token blendMode = "Additive"
+                        float4 endColorA = (0.55, 0.75, 1.0, 0)
+                        bool isLightingEnabled = 0
+                        float noiseAnimationSpeed = 0.4
+                        float noiseScale = 0.8
+                        float noiseStrength = 0.15
+                        token opacityOverLife = "GradualFadeInOut"
+                        asset particleImage = @ParticleEmitterPresetTextures/flare.exr@
+                        double particleLifeSpan = 4.5
+                        double particleLifeSpanVariation = 1.2
+                        float particleSize = 0.018
+                        float particleSizeVariation = 0.01
+                        float sizeMultiplierAtEndOfLifespan = 0.3
+                        float4 startColorA = (1.0, 0.95, 0.75, 0.85)
+                        float4 startColorB = (0.75, 0.9, 1.0, 0.7)
+                        bool useEndColor = 1
+                        bool useStartColorRange = 1
+                        float vortexStrength = 0.05
+                        float3 vortexDirection = (0, 1, 0)
+                    }
+
+                    def RealityKitStruct "spawnedEmitter"
+                    {
+                    }
+                }
+            }
+        }
+
+        def Xform "TaraPresence"
+        {
+            quatf xformOp:orient = (1, 0, 0, 0)
+            float3 xformOp:scale = (1, 1, 1)
+            float3 xformOp:translate = (0, 0, 0)
+            uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+
+            # Rigged export is Z-up (Blender); rotate -90° X into RCP Y-up.
+            # Includes SkelAnimation "WhiteTara_Idle" (breath + hand blessing).
+            def Xform "White_Tara" (
+                active = true
+                customData = {
+                    float3 rotationEulerHint = (-1.5707963, 0, 0)
+                }
+                prepend references = @Models/White_Tara_Rigged.usdz@
+            )
+            {
+                quatf xformOp:orient = (0.70710677, -0.70710677, 0, 0)
+                float3 xformOp:scale = (1, 1, 1)
+                float3 xformOp:translate = (0, 0.014, 0)
+                uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:orient", "xformOp:scale"]
+            }
+        }
+
+        def Material "MoonDiscMaterial"
+        {
+            token outputs:surface.connect = </Root/Shrine/MoonDiscMaterial/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.96, 0.97, 1.0)
+                color3f inputs:emissiveColor = (0.18, 0.2, 0.28)
+                float inputs:metallic = 0.2
+                float inputs:roughness = 0.3
+                token outputs:surface
+            }
+        }
+
+        def Material "LotusMaterial"
+        {
+            token outputs:surface.connect = </Root/Shrine/LotusMaterial/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.78, 0.42, 0.55)
+                color3f inputs:emissiveColor = (0.08, 0.02, 0.04)
+                float inputs:metallic = 0.05
+                float inputs:roughness = 0.55
+                token outputs:surface
+            }
+        }
+
+        def Material "AuraMaterial"
+        {
+            token outputs:surface.connect = </Root/Shrine/AuraMaterial/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (0.85, 0.92, 1.0)
+                color3f inputs:emissiveColor = (0.35, 0.45, 0.7)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.18
+                float inputs:roughness = 1
+                token outputs:surface
+            }
+        }
+
+        def Material "AuraCoreMaterial"
+        {
+            token outputs:surface.connect = </Root/Shrine/AuraCoreMaterial/PreviewSurface.outputs:surface>
+
+            def Shader "PreviewSurface"
+            {
+                uniform token info:id = "UsdPreviewSurface"
+                color3f inputs:diffuseColor = (1.0, 0.95, 0.85)
+                color3f inputs:emissiveColor = (0.55, 0.42, 0.25)
+                float inputs:metallic = 0
+                float inputs:opacity = 0.22
+                float inputs:roughness = 1
+                token outputs:surface
+            }
+        }
+    }
+
+    def Xform "KeyLight"
+    {
+        float3 xformOp:translate = (-0.3, 0.7, 0.4)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def RealityKitComponent "PointLight"
+        {
+            float attenuationRadius = 3
+            float3 color = (1.0, 0.93, 0.82)
+            uniform token info:id = "RealityKit.PointLight"
+            float intensity = 900
+        }
+    }
+
+    def Xform "FillLight"
+    {
+        float3 xformOp:translate = (0.35, 0.45, 0.3)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def RealityKitComponent "PointLight"
+        {
+            float attenuationRadius = 2.5
+            float3 color = (0.78, 0.88, 1.0)
+            uniform token info:id = "RealityKit.PointLight"
+            float intensity = 420
+        }
+    }
+
+    def Xform "RimLight"
+    {
+        float3 xformOp:translate = (0.05, 0.55, -0.45)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def RealityKitComponent "PointLight"
+        {
+            float attenuationRadius = 2.5
+            float3 color = (1.0, 0.95, 0.88)
+            uniform token info:id = "RealityKit.PointLight"
+            float intensity = 380
+        }
+    }
+
+    # Heart-center glow (pulses via timeline move/intensity presence)
+    def Xform "HeartGlow"
+    {
+        float3 xformOp:translate = (0, 0.32, 0.08)
+        uniform token[] xformOpOrder = ["xformOp:translate"]
+
+        def RealityKitComponent "PointLight"
+        {
+            float attenuationRadius = 0.9
+            float3 color = (1.0, 0.88, 0.65)
+            uniform token info:id = "RealityKit.PointLight"
+            float intensity = 250
+        }
+    }
+
+    def RealityKitComponent "RCP_BehaviorsContainer"
+    {
+        rel behaviors = [
+            </Root/OnAddedToScene>,
+        ]
+        uniform token info:id = "RCP.BehaviorsContainer"
+    }
+
+    def Preliminary_Behavior "OnAddedToScene"
+    {
+        rel actions = </Root/OnAddedToScene/Action>
+        uniform bool exclusive
+        rel triggers = </Root/OnAddedToScene/Trigger>
+
+        def Preliminary_Trigger "Trigger"
+        {
+            rel affectedObjects = </Root>
+            token info:id = "SceneTransition"
+        }
+
+        def Preliminary_Action "Action"
+        {
+            rel affectedObjects = </Root>
+            rel animationLibraryKey = </Root/IdleLoop>
+            rel animationLibraryKeyOverrideKey = </Root/OnAddedToScene/Trigger>
+            token info:id = "PlayTimeline"
+            int loops = 0
+            int performCount = 1
+            token type = "serial"
+        }
+    }
+
+    # Stronger presence cycle (~6s): float, aura pulse, moon spin, heart light bob
+    def RealityKitTimeline "IdleBreath"
+    {
+        reorder nameChildren = ["Track", "Track2", "Track3", "Track4"]
+
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Rise"
+            {
+                string actionKind = "moveBy"
+                int blendLayer = 300
+                double duration = 3.0
+                uniform token info:id = "198D4466-E15D-40FE-B355-C8541D76365F"
+                float3 position = (0, 0.035, 0)
+                double startTime = 0
+                rel target = </Root/Shrine/TaraPresence>
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "easeInOut"
+                }
+            }
+
+            def RealityKitAction "Settle"
+            {
+                string actionKind = "moveBy"
+                int blendLayer = 300
+                double duration = 3.0
+                uniform token info:id = "F6C6CB6C-FB28-4F51-AB5D-9DB776266F3C"
+                float3 position = (0, -0.035, 0)
+                double startTime = 3.0
+                rel target = </Root/Shrine/TaraPresence>
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "easeInOut"
+                }
+            }
+        }
+
+        def RealityKitTrack "Track2"
+        {
+            def RealityKitAction "AuraExpand"
+            {
+                string actionKind = "moveTo"
+                int blendLayer = 250
+                double duration = 3.0
+                uniform token info:id = "BF07409A-261A-445F-9382-A6B6B9546C80"
+                float3 position = (0, 0.28, 0)
+                quatf rotation = (1, 0, 0, 0)
+                float3 scale = (1.18, 1.55, 1.18)
+                double startTime = 0
+                rel target = </Root/Shrine/AuraHalo>
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "easeInOut"
+                }
+            }
+
+            def RealityKitAction "AuraContract"
+            {
+                string actionKind = "moveTo"
+                int blendLayer = 250
+                double duration = 3.0
+                uniform token info:id = "BBB02366-9175-477C-B5A4-C437765451BF"
+                float3 position = (0, 0.28, 0)
+                quatf rotation = (1, 0, 0, 0)
+                float3 scale = (1.0, 1.35, 1.0)
+                double startTime = 3.0
+                rel target = </Root/Shrine/AuraHalo>
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "easeInOut"
+                }
+            }
+        }
+
+        def RealityKitTrack "Track3"
+        {
+            def RealityKitAction "MoonSpin"
+            {
+                string actionKind = "spin"
+                int blendLayer = 200
+                double duration = 6.0
+                uniform token info:id = "071959A9-BA2F-4162-8045-99F4B6B45DA6"
+                double startTime = 0
+                rel target = </Root/Shrine/MoonDisc>
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "linear"
+                }
+            }
+        }
+
+        def RealityKitTrack "Track4"
+        {
+            def RealityKitAction "HeartRise"
+            {
+                string actionKind = "moveBy"
+                int blendLayer = 220
+                double duration = 3.0
+                uniform token info:id = "53BD0C73-71F6-432A-8952-E79BF0AE2A1C"
+                float3 position = (0, 0.04, 0)
+                double startTime = 0
+                rel target = </Root/HeartGlow>
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "easeInOut"
+                }
+            }
+
+            def RealityKitAction "HeartSettle"
+            {
+                string actionKind = "moveBy"
+                int blendLayer = 220
+                double duration = 3.0
+                uniform token info:id = "F528ADB7-89C9-4216-9AA8-8A9826C5461C"
+                float3 position = (0, -0.04, 0)
+                double startTime = 3.0
+                rel target = </Root/HeartGlow>
+
+                def RealityKitStruct "timingFunction"
+                {
+                    token type = "easeInOut"
+                }
+            }
+        }
+    }
+
+    def RealityKitTimeline "IdleLoop"
+    {
+        def RealityKitTrack "Track"
+        {
+            def RealityKitAction "Play_IdleBreath"
+            {
+                string actionKind = "timeline"
+                int blendLayer = 500
+                double duration = 6.0
+                uniform token info:id = "3CB11D68-6C90-4E17-BAED-6F1791A6F7A3"
+                double loopCount = 0
+                double startTime = 0
+                rel timeline = </Root/IdleBreath>
+            }
+        }
+    }
+}

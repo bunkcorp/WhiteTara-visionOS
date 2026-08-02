@@ -1,0 +1,11 @@
+{
+  "pathsToIds" : {
+    "\/White%20Tara\/Sources\/White%20Tara\/White%20Tara.rkassets\/Scene.usda" : "E549B900-AB9F-4DD2-BC21-1E504FF5698E",
+    "White Tara\/Sources\/White Tara\/White Tara.rkassets\/Scene.usda" : "8F0A90D2-68A9-449A-9AF6-65819B3C9F95"
+  },
+  "projectID" : -856383200632055114,
+  "uuidToIntID" : {
+    "8F0A90D2-68A9-449A-9AF6-65819B3C9F95" : -2130436815378687608,
+    "E549B900-AB9F-4DD2-BC21-1E504FF5698E" : 4402409358876132604
+  }
+}

@@ -1,0 +1,11 @@
+.DS_Store
+*.blend1
+__pycache__/
+*.pyc
+.SwiftPM/
+Package.realitycomposerpro/Library/
+*.swp
+*~
+
+Package.realitycomposerpro/WorkspaceData/*.rcuserdata
+scripts/*_log.txt
